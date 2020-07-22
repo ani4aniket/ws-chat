@@ -6,18 +6,28 @@
   <title>WebSockets</title>
 </head>
 <body>
+  <input type="text" placeholder="Your message here" id="text">
+  
+  <button>Send</button>
+
+  <div id="log"></div>
+
   <script>
-    var sock = new WebSocket("wss://echo.websocket.org");
+    var sock = new WebSocket("ws://localhost:5001");
     sock.onopen = function(event) {
-      alert('Socket connected successfully');
-      setTimeout(function() {
-        sock.send("Hey there")
-      }, 1000);
+      console.log(event)
     };
 
     sock.onmessage = function(event){
       console.log(event)
+      log.innerHTML += event.data + "<br/>";
     }
+
+    document.querySelector('button').onclick = function(){
+      var text = document.getElementById('text').value;
+      sock.send(text);
+    }
+
 
   </script>
 </body>
